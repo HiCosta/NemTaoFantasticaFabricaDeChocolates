@@ -157,7 +157,7 @@ public class NemTaoFantasticaFabricaDeChocolates extends JFrame {
         } catch (Exception e) { e.printStackTrace(); }
         
         Color begeClaro = new Color(255, 248, 220);
-        Font fonteCampos = new Font("SansSerif", Font.PLAIN, 22);
+        Font fonteCampos = new Font("SansSerif", Font.PLAIN, 16);
 
         // --- Painel do Cabeçalho (Fundo amarelado e logo) ---
         ImageHeaderPanel painelCabecalho = new ImageHeaderPanel("/FabricaChocolate/fundo_chocolate.jpeg", ALTURA_CABECALHO_DESEJADA);
