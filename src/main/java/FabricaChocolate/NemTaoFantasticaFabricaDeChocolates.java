@@ -1,25 +1,34 @@
 package FabricaChocolate;
 
+// Bibliotecas relacionadas ao Mongo DB
 import com.mongodb.client.*;
 import org.bson.Document;
 import static com.mongodb.client.model.Filters.eq;
 
+// Bibliotecas relacionadas a criação de interface gráfica
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
+
+// Classe para operar URLs
 import java.net.URL;
 
+// Método construtor
 public class NemTaoFantasticaFabricaDeChocolates extends JFrame {
-
+    
+    // Interface que permitirá fazer operações CRUD no banco
     private MongoCollection<Document> collection;
+    
+    // Elementos da tela inicial
     private JTextField nomeField, valorField, marcaField, codigoField;
     private JTable tabela;
     private DefaultTableModel model;
-
+    
+    // Definição da altura da faixada onde tem a logo da empresa
     private static final int ALTURA_CABECALHO_DESEJADA = 200;
 
-    // Classe interna para o painel do cabeçalho com a imagem
+    // Classe interna para o painel do cabeçalho com a imagem da logo
     private static class ImageHeaderPanel extends JPanel {
         private Image image;
         private final int desiredHeight;
@@ -31,21 +40,26 @@ public class NemTaoFantasticaFabricaDeChocolates extends JFrame {
                 URL imgUrl = getClass().getResource(imagePath);
                 if (imgUrl != null) {
                     this.image = new ImageIcon(imgUrl).getImage();
-                    // Validação da imagem (getWidth/getHeight retornam -1 se a imagem não estiver carregada)
+                    
+                    // Se a imagem não for adequada, emitir erro
                     if (this.image.getWidth(null) == -1 || this.image.getHeight(null) == -1) {
                         throw new Exception("Dimensões da imagem inválidas após carregamento.");
                     }
+                    
+                // Se a imagem não estiver carregando emitir erro, ao invés de simplesmente não rodar nada
                 } else {
                     this.errorMessage = "Imagem do cabeçalho não encontrada: " + imagePath;
                     System.err.println(this.errorMessage);
                 }
             } catch (Exception e) {
-                this.image = null; // Garante que a imagem é nula se houver erro
+                this.image = null; // Só pra garantir que a imagem é NULL mesmo se vier dar erro
+                
+                // Relatório de erros
                 this.errorMessage = "Erro ao carregar imagem: " + e.getMessage();
                 System.err.println(this.errorMessage);
                 e.printStackTrace();
             }
-            // Define a altura preferida. A largura será gerenciada pelo BorderLayout.
+            // Segundo boas práticas isso estabelece uma altura inicial proporcional a alura definida:
             setPreferredSize(new Dimension(10, desiredHeight)); // Largura inicial pequena, altura é a chave
         }
 
@@ -120,37 +134,44 @@ public class NemTaoFantasticaFabricaDeChocolates extends JFrame {
         }
     }
 
-
+    
+    // Método Construtor
     public NemTaoFantasticaFabricaDeChocolates() {
+        
+        // Conexão com banco e coleção
         MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
         MongoDatabase database = mongoClient.getDatabase("loja");
         collection = database.getCollection("chocolates");
-
+        
+        // Configurações básicas da janela
         setTitle("Loja de Chocolates");
         setSize(700, 650);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-
+        setDefaultCloseOperation(EXIT_ON_CLOSE); // Fechar quando usuário clicar no "X"
+        setLocationRelativeTo(null); // Serve para centralizar a Janela no meio da tela
+        
+        // Inserção do ícone de Chocolate
         try {
             URL iconUrl = getClass().getResource("/FabricaChocolate/chocolate.png");
             if (iconUrl != null) setIconImage(new ImageIcon(iconUrl).getImage());
             else System.err.println("Recurso do ícone não encontrado: /FabricaChocolate/chocolate.png");
         } catch (Exception e) { e.printStackTrace(); }
-
+        
         Color begeClaro = new Color(255, 248, 220);
-        Font fonteCampos = new Font("SansSerif", Font.PLAIN, 14);
+        Font fonteCampos = new Font("SansSerif", Font.PLAIN, 22);
 
-        // --- Painel do Cabeçalho ---
+        // --- Painel do Cabeçalho (Fundo amarelado e logo) ---
         ImageHeaderPanel painelCabecalho = new ImageHeaderPanel("/FabricaChocolate/fundo_chocolate.jpeg", ALTURA_CABECALHO_DESEJADA);
         painelCabecalho.setBackground(new Color(253, 237, 197));
 
-        // --- Painel de Conteúdo Principal ---
+        // --- Painel de Conteúdo Principal (Espaço de preenchimento, e depois a tabela) ---
         JPanel painelConteudoPrincipal = new JPanel(new BorderLayout());
-        painelConteudoPrincipal.setBackground(begeClaro);
+        painelConteudoPrincipal.setBackground(begeClaro); // Deixa fundo como bege claro
 
-        JPanel form = new JPanel(new GridLayout(5, 2, 10, 10));
-        form.setOpaque(false);
-        form.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+        JPanel form = new JPanel(new GridLayout(5, 2, 10, 10)); // Layout em grade: 5 Linhas | 2 Colunas | 10 de espaçaçamento horizontal e vertical
+        form.setOpaque(false); // Torna o fundo transparente, mero design
+        form.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15)); // É o padding, deixa o espaço interno maior
+        
+        // Linhas e colunas do preenchimento de dados
         nomeField = new JTextField(); valorField = new JTextField();
         marcaField = new JTextField(); codigoField = new JTextField();
         nomeField.setFont(fonteCampos); valorField.setFont(fonteCampos);
@@ -159,39 +180,55 @@ public class NemTaoFantasticaFabricaDeChocolates extends JFrame {
         form.add(new JLabel("Valor:")); form.add(valorField);
         form.add(new JLabel("Marca:")); form.add(marcaField);
         form.add(new JLabel("Código de Barras:")); form.add(codigoField);
-
-        JPanel botoes = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
+        
+        // Criação dos botões de operações
+        JPanel botoes = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0)); // Layout Flow organiza elementos linearmete, e se não tiver espaço pula pra linha debaixo
         botoes.setOpaque(false);
-        botoes.setBorder(BorderFactory.createEmptyBorder(0, 15, 15, 15));
-        JButton adicionarBtn = new JButton("Adicionar"); JButton atualizarBtn = new JButton("Atualizar");
-        JButton excluirBtn = new JButton("Excluir"); JButton mostrarBtn = new JButton("Mostrar");
-        botoes.add(adicionarBtn); botoes.add(atualizarBtn);
-        botoes.add(excluirBtn); botoes.add(mostrarBtn);
+        botoes.setBorder(BorderFactory.createEmptyBorder(0, 15, 15, 15)); // Configuração do Padding (Espaçamento Interno)
+        
+        // Conteúdo do botões
+        JButton adicionarBtn = new JButton("Adicionar");
+        JButton atualizarBtn = new JButton("Atualizar");
+        JButton excluirBtn = new JButton("Excluir");
+        JButton mostrarBtn = new JButton("Mostrar");
+        
+        // Adicionar botões
+        botoes.add(adicionarBtn);
+        botoes.add(atualizarBtn);
+        botoes.add(excluirBtn);
+        botoes.add(mostrarBtn);
 
+        // Painel que irá abrigar os botões
         JPanel painelFormularioBotoes = new JPanel(new BorderLayout());
         painelFormularioBotoes.setOpaque(false);
         painelFormularioBotoes.add(form, BorderLayout.NORTH);
         painelFormularioBotoes.add(botoes, BorderLayout.SOUTH);
-
+        
+        // Modelagem da Tabela
         model = new DefaultTableModel(new String[]{"Nome", "Valor", "Marca", "Código"}, 0);
-        tabela = new JTable(model);
+        tabela = new JTable(model); // Tabela Default
+        
+        // Configurações da tabela
         tabela.setBackground(begeClaro);
         tabela.setFont(fonteCampos);
         tabela.setFillsViewportHeight(true);
         tabela.setRowHeight(25);
+        
+        // Barra de rolagem para caso a tabela tenha vários itens
         JScrollPane scrollTabela = new JScrollPane(tabela);
         scrollTabela.getViewport().setBackground(begeClaro);
         scrollTabela.setBorder(BorderFactory.createEmptyBorder(0, 15, 15, 15));
         
-        scrollTabela.setPreferredSize(new Dimension(600, 300));
+        scrollTabela.setPreferredSize(new Dimension(600, 300)); // Tamanho de preferência do Layout
 
         painelConteudoPrincipal.add(painelFormularioBotoes, BorderLayout.NORTH);
         painelConteudoPrincipal.add(scrollTabela, BorderLayout.CENTER);
-
+        
+        // Configuracao de Layout
         JPanel painelMestre = new JPanel(new BorderLayout());
         painelMestre.add(painelCabecalho, BorderLayout.NORTH);
         painelMestre.add(painelConteudoPrincipal, BorderLayout.CENTER);
-
+        
         JScrollPane scrollPaneJanela = new JScrollPane(painelMestre);
         scrollPaneJanela.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         
@@ -199,12 +236,14 @@ public class NemTaoFantasticaFabricaDeChocolates extends JFrame {
 
 
         setContentPane(scrollPaneJanela);
-
+        
+        // Adiciona ação aos botões
         adicionarBtn.addActionListener(e -> adicionarProduto());
         atualizarBtn.addActionListener(e -> atualizarProduto());
         excluirBtn.addActionListener(e -> excluirProduto());
         mostrarBtn.addActionListener(e -> mostrarProdutos());
-
+        
+        // Ações com o mouse
         tabela.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 int row = tabela.getSelectedRow();
@@ -221,7 +260,7 @@ public class NemTaoFantasticaFabricaDeChocolates extends JFrame {
         mostrarProdutos();
     }
 
-    
+    // Adiciona novo item digitado
     private void adicionarProduto() {
         String nome = nomeField.getText();
         if (nome.isEmpty() || valorField.getText().isEmpty() || marcaField.getText().isEmpty() || codigoField.getText().isEmpty()) {
@@ -251,7 +290,8 @@ public class NemTaoFantasticaFabricaDeChocolates extends JFrame {
             JOptionPane.showMessageDialog(this, "O valor do produto é inválido!", "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
-
+    
+    // Valida campos e atualiza no banco
     private void atualizarProduto() {
         String codigoOriginal = "";
         int selectedRow = tabela.getSelectedRow();
@@ -300,7 +340,8 @@ public class NemTaoFantasticaFabricaDeChocolates extends JFrame {
             JOptionPane.showMessageDialog(this, "O valor do produto é inválido!", "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
-
+    
+    // Limpa campos de entrada e seleção da tabela
     private void excluirProduto() {
         String codigo = "";
         int selectedRow = tabela.getSelectedRow();

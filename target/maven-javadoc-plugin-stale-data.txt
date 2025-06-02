@@ -1,0 +1,47 @@
+-J-Duser.language=
+-J-Duser.country=
+@options
+@packages
+-classpath
+'C:/Users/Samuel/.m2/repository/org/mongodb/mongodb-driver-sync/4.11.1/mongodb-driver-sync-4.11.1.jar;C:/Users/Samuel/.m2/repository/org/mongodb/bson/4.11.1/bson-4.11.1.jar;C:/Users/Samuel/.m2/repository/org/mongodb/mongodb-driver-core/4.11.1/mongodb-driver-core-4.11.1.jar'
+-encoding
+'UTF-8'
+-protected
+-source
+'22'
+-sourcepath
+'C:/Users/Samuel/Desktop/Trabalhos Incriveis/Faculdade/POO 2/NemTaoFantasticaFabricaDeChocolates/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2025. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'C:/Users/Samuel/Desktop/Trabalhos Incriveis/Faculdade/POO 2/NemTaoFantasticaFabricaDeChocolates/target/reports/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'NemTaoFantasticaFabricaDeChocolates 1.0-SNAPSHOT API'
+-use
+-version
+-windowtitle
+'NemTaoFantasticaFabricaDeChocolates 1.0-SNAPSHOT API'
+FabricaChocolate
+C:\Users\Samuel\.m2\repository\org\mongodb\mongodb-driver-sync\4.11.1\mongodb-driver-sync-4.11.1.jar = 1748783055454
+C:\Users\Samuel\.m2\repository\org\mongodb\bson\4.11.1\bson-4.11.1.jar = 1748783055760
+C:\Users\Samuel\.m2\repository\org\mongodb\mongodb-driver-core\4.11.1\mongodb-driver-core-4.11.1.jar = 1748783056489
+C:\Users\Samuel\Desktop\Trabalhos Incriveis\Faculdade\POO 2\NemTaoFantasticaFabricaDeChocolates\src\main\java = 1748814632688
+C:\Users\Samuel\Desktop\Trabalhos Incriveis\Faculdade\POO 2\NemTaoFantasticaFabricaDeChocolates\target\reports\apidocs\allclasses-index.html = 1748822011022
+C:\Users\Samuel\Desktop\Trabalhos Incriveis\Faculdade\POO 2\NemTaoFantasticaFabricaDeChocolates\target\reports\apidocs\allpackages-index.html = 1748822011030
+C:\Users\Samuel\Desktop\Trabalhos Incriveis\Faculdade\POO 2\NemTaoFantasticaFabricaDeChocolates\target\reports\apidocs\element-list = 1748822010807
+C:\Users\Samuel\Desktop\Trabalhos Incriveis\Faculdade\POO 2\NemTaoFantasticaFabricaDeChocolates\target\reports\apidocs\help-doc.html = 1748822011137
+C:\Users\Samuel\Desktop\Trabalhos Incriveis\Faculdade\POO 2\NemTaoFantasticaFabricaDeChocolates\target\reports\apidocs\index-all.html = 1748822011069
+C:\Users\Samuel\Desktop\Trabalhos Incriveis\Faculdade\POO 2\NemTaoFantasticaFabricaDeChocolates\target\reports\apidocs\index.html = 1748822011126
+C:\Users\Samuel\Desktop\Trabalhos Incriveis\Faculdade\POO 2\NemTaoFantasticaFabricaDeChocolates\target\reports\apidocs\member-search-index.js = 1748822011050
+C:\Users\Samuel\Desktop\Trabalhos Incriveis\Faculdade\POO 2\NemTaoFantasticaFabricaDeChocolates\target\reports\apidocs\module-search-index.js = 1748822011034
+C:\Users\Samuel\Desktop\Trabalhos Incriveis\Faculdade\POO 2\NemTaoFantasticaFabricaDeChocolates\target\reports\apidocs\overview-tree.html = 1748822010968
+C:\Users\Samuel\Desktop\Trabalhos Incriveis\Faculdade\POO 2\NemTaoFantasticaFabricaDeChocolates\target\reports\apidocs\package-search-index.js = 1748822011043
+C:\Users\Samuel\Desktop\Trabalhos Incriveis\Faculdade\POO 2\NemTaoFantasticaFabricaDeChocolates\target\reports\apidocs\search.html = 1748822011075
+C:\Users\Samuel\Desktop\Trabalhos Incriveis\Faculdade\POO 2\NemTaoFantasticaFabricaDeChocolates\target\reports\apidocs\serialized-form.html = 1748822010934
+C:\Users\Samuel\Desktop\Trabalhos Incriveis\Faculdade\POO 2\NemTaoFantasticaFabricaDeChocolates\target\reports\apidocs\tag-search-index.js = 1748822011054
+C:\Users\Samuel\Desktop\Trabalhos Incriveis\Faculdade\POO 2\NemTaoFantasticaFabricaDeChocolates\target\reports\apidocs\type-search-index.js = 1748822011047
